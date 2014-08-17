@@ -12,4 +12,14 @@ describe Task do
     task1 = Task.create({:name => "sit down", :list_id => list.id})
     task1.list.should eq list
   end
+
+  it 'validates presence of a name' do
+    task = Task.new({:name => ''})
+    task.save.should eq false
+  end
+
+  it 'ensures that a task name is less than 50 characters long' do
+    task = Task.new({:name => 'a' * 51})
+    task.save.should eq false
+  end
 end
