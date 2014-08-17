@@ -11,10 +11,16 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20140817002805) do
+ActiveRecord::Schema.define(version: 20140817011213) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
+
+  create_table "lists", force: true do |t|
+    t.string   "name"
+    t.datetime "created_at"
+    t.datetime "updated_at"
+  end
 
   create_table "tasks", force: true do |t|
     t.string   "name"
@@ -22,6 +28,7 @@ ActiveRecord::Schema.define(version: 20140817002805) do
     t.datetime "created_at"
     t.datetime "updated_at"
     t.datetime "due_date"
+    t.integer  "list_id"
   end
 
 end
