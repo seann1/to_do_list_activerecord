@@ -6,4 +6,10 @@ describe Task do
     done_task = Task.create({:name => "done task", :done => true})
     Task.not_done.should eq not_done_tasks
   end
+
+  it 'belongs to a list' do
+    list = List.create({:name => "homework"})
+    task1 = Task.create({:name => "sit down", :list_id => list.id})
+    task1.list.should eq list
+  end
 end
