@@ -99,7 +99,12 @@ def add_list
   puts "**ENTER LIST NAME**"
   user_list = gets.chomp
   list = List.new({:name => user_list})
-  list.save
+    if list.save
+      puts "#{list.name} has been added"
+    else
+      puts "That wasn't a valid list"
+      list.errors.full_messages.each { |message| puts message }
+    end
   puts "\n"
   puts "<<<<#{list.name} was created>>>>"
   puts "\n"
