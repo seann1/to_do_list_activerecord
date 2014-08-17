@@ -106,7 +106,6 @@ def add_list
       list.errors.full_messages.each { |message| puts message }
     end
   puts "\n"
-  puts "<<<<#{list.name} was created>>>>"
   puts "\n"
 end
 
