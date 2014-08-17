@@ -1,6 +1,7 @@
 require 'active_record'
 require './lib/task'
 require './lib/list'
+require 'pry'
 
 
 database_configurations = YAML::load(File.open('./db/config.yml'))
@@ -46,29 +47,48 @@ def view_lists
   lists = List.all
   lists.each {|list| puts list.name}
   puts "^^^^^^^^^^^^^^^^^^^^"
-end
-
-def view_tasks
-  view_lists
-  puts "**ENTER THE NAME OF THE LIST YOU WOULD LIKE TO VIEW**"
-  user_list = gets.chomp
-  list = List.where(name: user_list)
-  tasks_for_list = Task.where(list_id: list.id)
-  puts "********TASKS*********"
-  tasks_for_list.each do |task|
-    puts task.name
+  puts "Press 'a' to add a task to a list"
+  user_choice = gets.chomp
+  if user_choice == 'a'
+    puts "Enter the name of the list you would like to add a task to"
+    user_list_name = gets.chomp
+    list_for_task = List.where(name: user_list_name)
+    binding.pry
+    puts "Enter task name"
+    user_task = gets.chomp
+    inputed_task = Task.create({:name => user_task, :list_id => list_for_task.first.id, :done => false})
+    puts "#{inputed_task.name} has been added to #{list_for_task.first.name}"
   end
 end
 
+def view_lists_only
+  puts "^^^^^^^LISTS^^^^^^^^"
+  lists = List.all
+  lists.each {|list| puts list.name}
+  puts "_____________________"
+end
+
+def view_tasks
+  view_lists_only
+  puts "**ENTER THE NAME OF THE LIST YOU WOULD LIKE TO VIEW**"
+  user_list = gets.chomp
+  list = List.where(name: user_list)
+  tasks_for_list = Task.where(list_id: list.first.id)
+  puts "--------TASKS---------"
+  tasks_for_list.each do |task|
+    puts "#{task.name} #{task.done}"
+  end
+  puts "<<<<<<<<>>>>>>>>>"
+end
+
 def add_list
-  puts "**ENTER LIST NAME"
+  puts "**ENTER LIST NAME**"
   user_list = gets.chomp
   list = List.create({:name => user_list})
   puts "\n"
   puts "<<<<#{list.name} was created>>>>"
   puts "\n"
 end
-
 
 
 
