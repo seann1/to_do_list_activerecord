@@ -11,7 +11,7 @@ ActiveRecord::Base.establish_connection(development_configuration)
 
 def welcome
   puts '  ~~~~~~~~~~~~~~~~~~~~~~~*~~~~~~~~~~~~~~~~~~~~
-  ~~~~~*~~~~~~~~TO DO LIST~~~~~~~~~~~~~~~~~~~~
+  ~~~~~*~~~~~~~~~~TO DO LIST~~~~~~~~~~~~~~~~~~
   ~~~~~~~~~~~~~~~~~~~~~*~~~~~~~~~~~~~~~@~~~~~~
   ~~~~~~~~~~~~*~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~'
   menu
@@ -20,9 +20,10 @@ end
 def menu
   choice = nil
   until choice == 'x'
-    puts "Press 'l' to view all lists or add a task to a list"
+    puts "Press 'l' to view all lists or add/delete a task"
     puts "Press 't' to view all tasks for a list"
     puts "Press 'al' to add a list"
+    puts "Press 'dl' to delete a list"
     choice = gets.chomp
     case choice
     when 'l'
@@ -31,6 +32,8 @@ def menu
       view_tasks
     when 'al'
       add_list
+    when 'dl'
+      delete_list
     when 'x'
       exit
     else
@@ -45,17 +48,30 @@ def view_lists
   lists.each {|list| puts list.name}
   puts "^^^^^^^^^^^^^^^^^^^^"
   puts "Press 'a' to add a task to a list"
+  puts "Press 'd' to delete a task from a list"
   user_choice = gets.chomp
   if user_choice == 'a'
     puts "Enter the name of the list you would like to add a task to"
     user_list_name = gets.chomp
     list_for_task = List.where(name: user_list_name)
-    binding.pry
     puts "Enter task name"
     user_task = gets.chomp
     inputed_task = Task.new({:name => user_task, :list_id => list_for_task.first.id, :done => false})
     inputed_task.save
     puts "#{inputed_task.name} has been added to #{list_for_task.first.name}"
+  elsif user_choice == 'd'
+    puts "Enter the name of the list you would like delete a task from"
+    user_list_name = gets.chomp
+    list_for_task = List.where(name: user_list_name)
+    all_tasks = Task.where(list_id: list_for_task.id)
+    all_tasks.each do |i|
+      puts'#{i.name}'
+    end
+    puts "Enter the name of the task you would like to delete"
+    user_task_name = gets.chomp
+    user_task_delete = Task.where(name: user_task_name, list_id: list_for_task.id)
+    user_task_delete.destroy
+    puts "#{user_task_delete.name} has been deleted"
   end
 end
 
@@ -109,6 +125,13 @@ def add_list
   puts "\n"
 end
 
+def delete_list
+  view_lists_only
+  puts "Enter the name of the list you would like to delete"
+  user_list = gets.chomp
+  list_to_delete = List.find_by(name: user_list)
+  list_to_delete.destroy
+end
 
 
 
