@@ -13,4 +13,5 @@ to_do_list_activerecord
 -------
 -------
 
+By [Sean Niesen](http://github.com/seann1/)
 
