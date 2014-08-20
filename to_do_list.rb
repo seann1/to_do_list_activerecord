@@ -10,6 +10,14 @@ ActiveRecord::Base.establish_connection(development_configuration)
 
 
 def welcome
+  puts ' *            *                * *               *   *
+  *          *                    *        * *                  *
+    *                 *                              *
+                  *                 *                          *
+
+
+*          *                 *    *                   *     *
+'
   puts '  ~~~~~~~~~~~~~~~~~~~~~~~*~~~~~~~~~~~~~~~~~~~~
   ~~~~~*~~~~~~~~~~TO DO LIST~~~~~~~~~~~~~~~~~~
   ~~~~~~~~~~~~~~~~~~~~~*~~~~~~~~~~~~~~~@~~~~~~
@@ -20,7 +28,7 @@ end
 def menu
   choice = nil
   until choice == 'x'
-    puts "Press 'l' to view all lists or add/delete a task"
+    puts "Press 'l' to view all lists, change a list's name or add/delete a task"
     puts "Press 't' to view all tasks for a list"
     puts "Press 'al' to add a list"
     puts "Press 'dl' to delete a list"
@@ -48,6 +56,7 @@ def view_lists
   lists.each {|list| puts list.name}
   puts "^^^^^^^^^^^^^^^^^^^^"
   puts "Press 'a' to add a task to a list"
+  puts "Press 'c' to change a list's name"
   puts "Press 'd' to delete a task from a list"
   user_choice = gets.chomp
   if user_choice == 'a'
@@ -72,6 +81,22 @@ def view_lists
     user_task_delete = Task.find_by(name: user_task_name, list_id: list_for_task.first.id)
     user_task_delete.destroy
     puts "#{user_task_delete.name} has been deleted"
+  elsif user_choice == 'c'
+    puts "Enter the name of the list you would like to change the name of"
+    user_list_name = gets.chomp
+    list_to_change = List.where(name: user_list_name)
+    puts "Enter new name"
+    new_name = gets.chomp
+    list_to_change.first.update(name: new_name)
+    puts "****THE LIST YOU CHOSE IS NOW CALLED....... #{list_to_change.first.name}****
+----------------------------------------------------------------------->"
+  else
+    puts "*              *       *   *
+    *        *    *                     *
+        *               *      *
+                      *    *
+    *            *"
+
   end
 end
 
@@ -113,6 +138,8 @@ def view_tasks
     task_to_mark = Task.where(name: user_task, list_id: list.first.id)
     task_to_mark.first.update(done: true)
     puts "#{task_to_mark.first.name} has been set to 'done'"
+    puts " *                   *        * *               *   *
+    *   *        * *          *                *       *    *"
   else
     puts "<<<<<<<>>>>>>>"
   end
