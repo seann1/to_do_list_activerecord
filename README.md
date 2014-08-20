@@ -8,7 +8,7 @@ to_do_list_activerecord
 --------
 --------
 
-#+(EPICODUS)
++ (EPICODUS)
 
 -------
 -------
