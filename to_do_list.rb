@@ -63,13 +63,13 @@ def view_lists
     puts "Enter the name of the list you would like delete a task from"
     user_list_name = gets.chomp
     list_for_task = List.where(name: user_list_name)
-    all_tasks = Task.where(list_id: list_for_task.id)
+    all_tasks = Task.where(list_id: list_for_task.first.id)
     all_tasks.each do |i|
-      puts'#{i.name}'
+      puts i.name
     end
     puts "Enter the name of the task you would like to delete"
     user_task_name = gets.chomp
-    user_task_delete = Task.where(name: user_task_name, list_id: list_for_task.id)
+    user_task_delete = Task.find_by(name: user_task_name, list_id: list_for_task.first.id)
     user_task_delete.destroy
     puts "#{user_task_delete.name} has been deleted"
   end
