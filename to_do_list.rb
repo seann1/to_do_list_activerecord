@@ -99,6 +99,7 @@ def view_tasks
   end
   puts "<<<<<<<<>>>>>>>>>"
   puts "press 'y' if you would like to see only the tasks you still have to do"
+  puts "press 'm' if you would like to mark a task as done"
   user_choice = gets.chomp
 
   if user_choice == 'y'
@@ -106,6 +107,13 @@ def view_tasks
       puts "#{task.name}"
     end
     puts "<<<<<<<>>>>>>>"
+  elsif user_choice == 'm'
+    puts "Enter Task Name"
+    user_task = gets.chomp
+    task_to_mark = Task.where(name: user_task, list_id: list.first.id)
+    task_to_mark.first.update(done: true)
+    puts "#{task_to_mark.first.name} has been set to 'done'"
+
   else
     puts "<<<<<<<>>>>>>>"
   end
