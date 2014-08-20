@@ -1,6 +1,16 @@
 to_do_list_activerecord
 =======================
 
-to do list in active record for Epicodus assessment
+##To Do List in ActiveRecord for Epicodus assessment
 
-((((EPICODUS))))
+###Allows user to make lists with tasks within them
+
+--------
+--------
+
+#+(EPICODUS)
+
+-------
+-------
+
+
