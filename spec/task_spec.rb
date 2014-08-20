@@ -22,4 +22,10 @@ describe Task do
     task = Task.new({:name => 'a' * 51})
     task.save.should eq false
   end
+
+  it 'puts the task name entered into all lowercase' do
+    list = Task.new({:name => 'wORk', :list_id => 1, :done => false})
+    list.save
+    list.name.should eq 'work'
+  end
 end

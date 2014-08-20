@@ -113,7 +113,6 @@ def view_tasks
     task_to_mark = Task.where(name: user_task, list_id: list.first.id)
     task_to_mark.first.update(done: true)
     puts "#{task_to_mark.first.name} has been set to 'done'"
-
   else
     puts "<<<<<<<>>>>>>>"
   end

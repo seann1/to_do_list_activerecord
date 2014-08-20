@@ -17,4 +17,10 @@ describe List do
     list = List.new({:name => 'a' * 51})
     list.save.should eq false
   end
+
+  it 'puts the list name entered into all lowercase' do
+    list = List.new({:name => 'wORk'})
+    list.save
+    list.name.should eq 'work'
+  end
 end
